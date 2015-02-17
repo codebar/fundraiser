@@ -6,6 +6,7 @@ module Fundraiser
     set :publishable_key, ENV['PUBLISHABLE_KEY']
     set :secret_key, ENV['SECRET_KEY']
     set :views, "#{Dir.pwd}/views"
+    set :public_folder, "#{Dir.pwd}/public"
 
     Stripe.api_key = settings.secret_key
 
@@ -14,7 +15,7 @@ module Fundraiser
     end
 
     post '/charge' do
-      @amount = 65000
+      @amount = params[:amount]
 
       customer = Stripe::Customer.create(
         :email => params[:stripeEmail],

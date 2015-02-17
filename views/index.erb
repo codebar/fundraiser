@@ -1,10 +1,61 @@
-<form action="/charge" method="post" class="payment">
-  <article>
-  <label class="amount">
-    <span>Amount: £640.00</span>
-  </label>
-  </article>
+<div id="container">
+  <p id="instructions"> 
+<br/>
+  Codebar is a non-profit initiative, running free coding workshops and facilitating the growth of a  diverse community. Thank you for your support.
+<br/>
+<br/>
+If you would like to learn more about how you donation is used, have a look at our <a href="http://manual.codebar.io/becoming-a-sponsor.html">Sponsor guide</a>.
 
-  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key="<%= settings.publishable_key %>"></script>
-</form>
+  <br/>
+  <br/>
+  Select the amount you would like to donate:
+  </p>
+  <div class="panel">
+    <label class="amount">
+      £100.00
+    </label>
+    <form action="/charge" method="post" class="payment">
+      <input name="amount" type="hidden" value="10000"/>
+
+      <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="<%= settings.publishable_key %>"
+        data-image="https://avatars1.githubusercontent.com/u/5642384?v=3&s=300"
+        data-name="Donation"
+        data-currency="GBP"
+        data-amount="10000"></script>
+    </form>
+  </div>
+
+  <div class="panel">
+    <label class="amount">
+      £200.00
+    </label>
+    <form action="/charge" method="post" class="payment">
+      <input name="amount" type="hidden" value="20000"/>
+
+      <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="<%= settings.publishable_key %>"
+        data-image="https://avatars1.githubusercontent.com/u/5642384?v=3&s=300"
+        data-name="Donation"
+        data-currency="GBP"
+        data-amount="20000"></script>
+    </form>
+  </div>
+
+  <div class="panel">
+    <label class="amount">
+      £650.00
+    </label>
+    <form action="/charge" method="post" class="payment">
+      <input name="amount" type="hidden" value="65000"/>
+
+      <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="<%= settings.publishable_key %>"
+        data-image="https://avatars1.githubusercontent.com/u/5642384?v=3&s=300"
+        data-name="Donation"
+        data-currency="GBP"
+        data-amount="64000"></script>
+    </form>
+  </div>
+
+</div>

@@ -1,1 +1,7 @@
-<h2>Thanks, you paid <strong><%= £@amount %></strong>!</h2>
+<div id="container">
+  <p id="instructions"> Your donation of <strong>£<%= @amount.to_i/100 %></strong> has been processed. Thanks for your support!
+  <br/>
+  <br/>
+  If you would like an invoice, please send us an email.
+  </p>
+</div>
