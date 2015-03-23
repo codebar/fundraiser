@@ -28,17 +28,17 @@ If you would like to learn more about how you donation is used, have a look at o
 
   <div class="panel">
     <label class="amount">
-      £200.00
+      £250.00
     </label>
     <form action="/charge" method="post" class="payment">
-      <input name="amount" type="hidden" value="20000"/>
+      <input name="amount" type="hidden" value="25000"/>
 
       <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
         data-key="<%= settings.publishable_key %>"
         data-image="https://avatars1.githubusercontent.com/u/5642384?v=3&s=300"
         data-name="Donation"
         data-currency="GBP"
-        data-amount="20000"></script>
+        data-amount="25000"></script>
     </form>
   </div>
 
