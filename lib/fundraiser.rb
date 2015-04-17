@@ -18,23 +18,24 @@ module Fundraiser
       @amount = params[:amount]
 
       customer = Stripe::Customer.create(
-        :email => params[:stripeEmail],
-        :card  => params[:stripeToken]
+        email: params[:data][:email],
+        description: params[:name],
+        source: params[:data][:id]
       )
 
       charge = Stripe::Charge.create(
         :amount      => @amount,
-        :description => 'Codebar Donation',
+        :description => 'Donation to Codebar',
         :currency    => 'gbp',
-        :customer    => customer.id
+        :customer    => customer.id,
       )
 
-      erb :charge
-
+      erb :charge, layout: false
     end
 
     error Stripe::CardError do
       env['sinatra.error'].message
     end
+
   end
 end

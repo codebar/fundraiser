@@ -1,61 +1,106 @@
-<div id="container">
-  <p id="instructions"> 
-<br/>
-  Codebar is a non-profit initiative, running free coding workshops and facilitating the growth of a  diverse community. Thank you for your support.
-<br/>
-<br/>
-If you would like to learn more about how you donation is used, have a look at our <a href="http://manual.codebar.io/becoming-a-sponsor.html">Sponsor guide</a>.
+<div id="container" class='stripe'>
+  <div class='contain'>
+    <div class="col-double">
+      <div class="left">
 
-  <br/>
-  <br/>
-  Select the amount you would like to donate:
-  </p>
-  <div class="panel">
-    <label class="amount">
-      £100.00
-    </label>
-    <form action="/charge" method="post" class="payment">
-      <input name="amount" type="hidden" value="10000"/>
+        <h5>Thanks for your support.</h5>
 
-      <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-        data-key="<%= settings.publishable_key %>"
-        data-image="https://avatars1.githubusercontent.com/u/5642384?v=3&s=300"
-        data-name="Donation"
-        data-currency="GBP"
-        data-amount="10000"></script>
-    </form>
+        <p><strong>codebar</strong> is a non-profit initiative that facilitates the growth of a diverse tech community by running free regular workshops, events and technical courses available to people belonging in underrepresented groups in London, Brighton, Cambridge and Birmingham.</p>
+
+        <p>By donating you help promote diversity within the tech sector and you are also contributing to the growth of much-needed technical skills giving a further boost to the post-recession economy.</p>
+
+        <p>More women, LGBTQ and other people from under-represented minority groups will be able to get started with programming and raise their skills to the next level.</p>
+      </div>
+
+      <div class="right">
+        <div class="panel">
+          <script src="https://checkout.stripe.com/checkout.js"></script>
+
+          <div id="message"></div>
+
+          <div class="formplate">
+            <input placeholder="Name (blank for anonymous donations)" id="name" type="text"/>
+          </div>
+
+          <div class="formplate">
+            <input id="amount" type="number" value="5.00" min="1" max="999999999">
+          </div>
+          <div class="txt-r">
+            <button class="btn-control" id="donate">Donate</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="panel">
-    <label class="amount">
-      £250.00
-    </label>
-    <form action="/charge" method="post" class="payment">
-      <input name="amount" type="hidden" value="25000"/>
-
-      <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-        data-key="<%= settings.publishable_key %>"
-        data-image="https://avatars1.githubusercontent.com/u/5642384?v=3&s=300"
-        data-name="Donation"
-        data-currency="GBP"
-        data-amount="25000"></script>
-    </form>
-  </div>
-
-  <div class="panel">
-    <label class="amount">
-      £500.00
-    </label>
-    <form action="/charge" method="post" class="payment">
-      <input name="amount" type="hidden" value="50000"/>
-
-      <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-        data-key="<%= settings.publishable_key %>"
-        data-image="https://avatars1.githubusercontent.com/u/5642384?v=3&s=300"
-        data-name="Donation"
-        data-currency="GBP"
-        data-amount="50000"></script>
-    </form>
-  </div>
-
 </div>
+
+<div class='stripe'>
+  <div class='contain'>
+    <div class="txt-c">
+      <h3>Some of our sponsors</h3>
+      <br/>
+    </div>
+    <div class="row">
+      <a href="#image-hover" class="sponsor shutl">
+        <img src="img/shutl.png"/>
+      </a>
+      <a href="#image-hover" class="sponsor">
+        <img src="img/twitter.png"/>
+      </a>
+      <a href="#image-hover" class="sponsor">
+        <img src="img/amex.jpg"/>
+      </a>
+      <a href="#image-hover" class="sponsor">
+        <img src="img/brandwatch.png"/>
+      </a>
+      <a href="#image-hover" class="sponsor thoughtworks">
+        <img src="img/thoughtworks.jpg"/>
+      </a>
+      <a href="#image-hover" class="sponsor mxm">
+        <img src="img/MxM.gif"/>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  var handler = StripeCheckout.configure({
+    key: "<%= settings.publishable_key %>",
+    image: "https://avatars1.githubusercontent.com/u/5642384?v=3&s=300",
+    currency: 'GBP',
+    token: function(token) {
+      var name = $('#name').val();
+      var amount = $('#amount').val();
+      $.ajax({
+        type: "POST",
+        url: '/charge',
+        data: { amount: amount*100, name: name, data: token }
+      }).done(function(response) {
+        $('#container').html(response);
+      }).fail(function(xhr, status,  e){
+        $('#message').html("Your transaction has not been succesful. Please try again.");
+      });
+    }
+  });
+
+  $('#donate').on('click', function(e) {
+    var amount = $('#amount').val();
+    if (!$.isNumeric(amount)) {
+      $('#message').html("You have not entered a valid amount.");
+      return;
+    } else {
+      $('#message').html("");
+    }
+
+    handler.open({
+      name: 'codebar',
+      description: 'Donation of £' + amount,
+      amount: amount*100
+    });
+    e.preventDefault();
+  });
+
+  $(window).on('popstate', function() {
+    handler.close();
+  });
+</script>
